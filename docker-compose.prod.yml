@@ -1,0 +1,62 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: etl_production_django
+    depends_on:
+      - postgres
+    volumes:
+      - ./inDataGen:/app
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    expose:
+      - 8000
+    command: /start
+    restart: unless-stopped
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: etl_production_postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.production/.postgres
+    restart: unless-stopped
+
+  redis:
+    image: redis:3.2
+    restart: unless-stopped
+
+  celeryworker:
+    <<: *django
+    image: etl_production_celeryworker
+    depends_on:
+      - redis
+      - postgres
+      
+    ports: []
+    command: /start-celeryworker
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./compose/production/nginx/Dockerfile
+    image: etl_production_nginx
+    ports:
+      - 80:80
+    depends_on:
+      - django
+    restart: unless-stopped
