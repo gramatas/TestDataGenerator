@@ -1,0 +1,4 @@
+-r ./local.txt
+
+# Deployment
+gunicorn

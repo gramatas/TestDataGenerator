@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %}inDataGen{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+	</head>
+	<body>
+		<div id="app">
+			<section class="main-content columns is-fullheight">
+				<div class="container column is-10">
+					<div class="section">
+						{% block content %}
+
+						{% endblock %}
+					</div>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>
+

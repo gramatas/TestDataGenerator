@@ -1,0 +1,33 @@
+# Django
+Django==3.1.4
+
+# Tools
+django_extensions
+
+# Environment
+django-environ==0.4.5
+
+# Passwords security
+argon2-cffi==18.3.0
+
+# Utilities
+pytz==2020.4
+
+# Postgres
+#psycopg2==2.7.4 --no-binary psycopg2
+psycopg2-binary
+
+# Celery
+redis
+django-redis
+celery==4.4.7
+flower
+
+# ETL
+bonobo[sqlalchemy]
+
+# Databases connections
+SQLAlchemy
+
+# Faker
+Faker==6.6.2
